@@ -70,7 +70,8 @@ export type ShopUIMessage = UIMessage<ChatMetadata, never, InferUITools<ShopTool
 
 /** The store's name goes in, so every store gets its own assistant. It is escaped of anything but plain text. */
 export function systemPrompt(storeName: string) {
-  const name = storeName.replace(/[^\p{L}\p{N} .,&'-]/gu, "").slice(0, 60) || "esta loja";
+  // A store name is typed by whoever creates the store: it goes in the prompt as plain words only.
+  const name = storeName.replace(/[^\p{L}\p{N} .,&'-]/gu, " ").replace(/\s+/g, " ").trim().slice(0, 60) || "esta loja";
   return `Você é a assistente de compras da loja ${name}, uma loja online brasileira.
 
 Como trabalhar:
