@@ -4,7 +4,7 @@
 
 The capstone of a 12-project AI engineering track focused on front-end. It puts eleven earlier projects to work in one product. The interface is in Portuguese.
 
-**[Live demo](https://vitrine-ai.vercel.app)** · [a ready store](https://vitrine-ai.vercel.app/loja/vitrine-demo) · [3-minute video](#)
+**[Live demo](https://vitrine-ai-nu.vercel.app)** · [a ready store](https://vitrine-ai-nu.vercel.app/loja/vitrine-demo) · [3-minute video](#)
 
 ## What a store gets
 
