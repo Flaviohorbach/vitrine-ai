@@ -123,9 +123,10 @@ export function Storefront({ slug, storeName, categories, suggestions }: { slug:
           placeholder="Busque do seu jeito: “presente para quem ama café até 100 reais”"
           className="w-full rounded-full border border-line bg-surface px-5 py-3 placeholder:text-muted"
         />
-        <div className="mt-3 flex flex-wrap gap-1.5">
+        {/* One scrolling row on phones, so the products are not pushed below the fold. */}
+        <div className="-mx-4 mt-3 flex gap-1.5 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
           {[null, ...categories].map((c) => (
-            <button key={c ?? "todas"} type="button" aria-pressed={category === c} onClick={() => setCategory(c)} className="rounded-full border border-line px-3 py-1 text-sm aria-pressed:border-accent aria-pressed:bg-accent-soft">
+            <button key={c ?? "todas"} type="button" aria-pressed={category === c} onClick={() => setCategory(c)} className="shrink-0 rounded-full border border-line px-3 py-1 text-sm whitespace-nowrap aria-pressed:border-accent aria-pressed:bg-accent-soft">
               {c ?? "Todas"}
             </button>
           ))}

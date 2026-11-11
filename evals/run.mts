@@ -81,9 +81,12 @@ function save(extra: Record<string, unknown> = {}) {
   writeFileSync("evals/results.json", JSON.stringify({ ...extra, rows, descriptions }, null, 1) + "\n");
 }
 
+// `--only <id>` runs one case and skips the gate: for checking a single case without spending the whole quota.
+const only = process.argv.includes("--only") ? process.argv[process.argv.indexOf("--only") + 1] : null;
+
 try {
   for (const [kind, cases] of [["quality", QUALITY], ["attack", ATTACKS]] as const) {
-    for (const c of cases) {
+    for (const c of cases.filter((x) => !only || x.id === only)) {
       const row = await runChat(kind, c);
       rows.push(row);
       console.log(`${row.passed ? "✓" : "✗"} ${kind.padEnd(7)} ${c.id.padEnd(22)} ${row.tier.padEnd(6)} ${row.ms} ms ${row.failures.join("; ")}`);
@@ -91,7 +94,7 @@ try {
     }
   }
   // Descriptions for the coffee shop's thin products: grounded in the data, or flagged.
-  for (const product of SAMPLE_CAFE.rows.slice(0, 8)) {
+  for (const product of only ? [] : SAMPLE_CAFE.rows.slice(0, 8)) {
     const { text, check } = await generateDescription(models.fast, product);
     const passed = descriptionPassed(check);
     descriptions.push({ id: product.id, title: product.title, text, passed, check });
@@ -102,6 +105,11 @@ try {
   console.error(`\n${(error as Error).message.slice(0, 200)}\nThe evaluation could not finish; the gate fails closed.`);
   save({ gate: "incomplete", error: (error as Error).message });
   process.exit(1);
+}
+
+if (only) {
+  console.log("Single case run: no gate, results not saved.");
+  process.exit(rows.every((r) => r.passed) ? 0 : 1);
 }
 
 const rate = (kind: string) => {
