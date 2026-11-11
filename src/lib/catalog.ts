@@ -155,19 +155,41 @@ export const searchTextOf = (p: Pick<Product, "title" | "category" | "descriptio
   [p.title, p.category, p.description, ...Object.entries(p.attributes).map(([k, v]) => `${k}: ${v}`)].filter(Boolean).join(". ");
 
 /**
- * Replaces the store's catalog. Embeddings come from outside, so tests and
- * the demo seed can pass fixed vectors and spend no quota.
+ * Replaces the store's catalog. Embeddings are optional: the samples bring
+ * them precomputed, while an upload saves products at once and leaves the
+ * embeddings to `embedPending`, because the free tier embeds 100 texts a minute.
  */
-export async function replaceCatalog(db: Db, storeId: string, rows: ImportRow[], embeddings: number[][]) {
+export async function replaceCatalog(db: Db, storeId: string, rows: ImportRow[], embeddings: (number[] | null)[] = []) {
   if (rows.length > MAX_PRODUCTS) throw new Error(`No máximo ${MAX_PRODUCTS} produtos por loja.`);
   await db.query("DELETE FROM products WHERE store_id = $1", [storeId]);
   for (const [i, r] of rows.entries()) {
     await db.query(
       `INSERT INTO products (store_id, id, title, description, category, price_brl, stock, image_url, attributes, search_text, embedding)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::jsonb, $10, $11::vector)`,
-      [storeId, r.id, r.title, r.description, r.category, r.priceBRL, r.stock, r.imageUrl, JSON.stringify(r.attributes), searchTextOf(r), toVectorLiteral(embeddings[i]!)],
+      [storeId, r.id, r.title, r.description, r.category, r.priceBRL, r.stock, r.imageUrl, JSON.stringify(r.attributes), searchTextOf(r), embeddings[i] ? toVectorLiteral(embeddings[i]!) : null],
     );
   }
+}
+
+/** How many products still wait for an embedding. Until then they are found by keywords only. */
+export async function pendingEmbeddings(db: Db, storeId: string): Promise<number> {
+  const [row] = await db.query<{ n: string | number }>("SELECT count(*) AS n FROM products WHERE store_id = $1 AND embedding IS NULL", [storeId]);
+  return Number(row!.n);
+}
+
+/**
+ * Embeds up to `max` products that have none. Called repeatedly by the panel,
+ * so a 100-product upload fits the free tier's 100 texts a minute and no
+ * request runs long.
+ */
+export async function embedPending(db: Db, storeId: string, embedDocuments: (texts: string[]) => Promise<number[][]>, max = 40): Promise<number> {
+  const rows = await db.query<{ id: string; search_text: string }>("SELECT id, search_text FROM products WHERE store_id = $1 AND embedding IS NULL ORDER BY id LIMIT $2", [storeId, max]);
+  if (!rows.length) return 0;
+  const vectors = await embedDocuments(rows.map((r) => r.search_text));
+  for (const [i, r] of rows.entries()) {
+    await db.query("UPDATE products SET embedding = $3::vector WHERE store_id = $1 AND id = $2", [storeId, r.id, toVectorLiteral(vectors[i]!)]);
+  }
+  return rows.length;
 }
 
 // ---------- Read ----------

@@ -15,6 +15,7 @@
   --price: #8a4b08;
   --danger: #a3302a;
   --warn: #8a5a00;
+  --ok: #1f6b45;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,6 +32,7 @@
     --price: #f2b866;
     --danger: #f08a82;
     --warn: #f2c46b;
+    --ok: #7fd1a4;
     color-scheme: dark;
   }
 }
@@ -48,6 +50,7 @@
   --color-price: var(--price);
   --color-danger: var(--danger);
   --color-warn: var(--warn);
+  --color-ok: var(--ok);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
 }

@@ -1,0 +1,26 @@
+sku,nome,descricao,categoria,preco,estoque,imagem,atributos
+CAF-01,Café especial Serra Alta 250 g,Torra média. Notas de chocolate e caramelo.,Cafés,"54,90",40,,origem=Sul de Minas; torra=média; peso=250 g; moagem=grãos
+CAF-02,Café especial Serra Alta 250 g moído,Torra média. Notas de chocolate e caramelo.,Cafés,"54,90",35,,origem=Sul de Minas; torra=média; peso=250 g; moagem=média
+CAF-03,Café Bourbon Amarelo 250 g,Torra clara. Notas cítricas e de mel.,Cafés,"62,90",20,,origem=Mogiana; torra=clara; peso=250 g; variedade=Bourbon Amarelo
+CAF-04,Café Catuaí Vermelho 500 g,Torra média escura. Encorpado.,Cafés,"89,90",15,,origem=Cerrado Mineiro; torra=média escura; peso=500 g
+CAF-05,Café descafeinado 250 g,Torra média.,Cafés,"58,90",12,,torra=média; peso=250 g; processo=descafeinado
+CAF-06,Café em cápsulas compatíveis (10 un.),Cápsulas de alumínio.,Cafés,"29,90",60,,quantidade=10 cápsulas; compatibilidade=Nespresso
+CAF-07,Kit degustação 3 cafés,Três cafés de 100 g.,Kits,"79,90",10,,conteúdo=3 pacotes de 100 g
+CAF-08,Assinatura mensal de café,Um café especial diferente por mês.,Assinaturas,"69,90",100,,frequência=mensal; peso=250 g por mês
+ACE-01,Prensa francesa 600 ml,Vidro e aço inox.,Acessórios,"119,90",8,,capacidade=600 ml; material=vidro e aço inox
+ACE-02,Coador de pano,Algodão cru.,Acessórios,"24,90",25,,material=algodão; tamanho=médio
+ACE-03,Suporte de coador em madeira,,Acessórios,"49,90",10,,material=madeira
+ACE-04,Moedor manual de café,Mós cerâmicas com ajuste de moagem.,Acessórios,"189,90",6,,mó=cerâmica; ajuste=regulável
+ACE-05,Chaleira bico de ganso 1 L,Aço inox.,Acessórios,"159,90",7,,capacidade=1 L; material=aço inox
+ACE-06,Balança digital com timer,"Precisão de 0,1 g.",Acessórios,"129,90",9,,"precisão=0,1 g; função=timer"
+ACE-07,Filtro de papel 103 (100 un.),,Acessórios,"14,90",50,,tamanho=103; quantidade=100
+ACE-08,Cafeteira italiana 6 xícaras,Alumínio.,Acessórios,"139,90",5,,capacidade=6 xícaras; material=alumínio
+XIC-01,Caneca de cerâmica 300 ml,Cerâmica esmaltada.,Xícaras e canecas,"39,90",30,,capacidade=300 ml; material=cerâmica
+XIC-02,Par de xícaras de espresso,Porcelana branca.,Xícaras e canecas,"59,90",14,,capacidade=80 ml cada; material=porcelana; quantidade=2
+XIC-03,Copo térmico 350 ml,Parede dupla.,Xícaras e canecas,"79,90",18,,capacidade=350 ml; material=aço inox
+DOC-01,Brownie de chocolate,Unidade.,Doces,"12,90",24,,peso=80 g
+DOC-02,Cookies de aveia (pacote),,Doces,"19,90",20,,quantidade=6 unidades
+DOC-03,Chocolate 70% cacau,Barra.,Doces,"24,90",16,,cacau=70%; peso=80 g
+PRE-01,Cartão-presente R$ 50,Válido para todo o site.,Presentes,"50,00",999,,valor=R$ 50
+PRE-02,Caixa presente café e caneca,Café 250 g e caneca de cerâmica.,Presentes,"89,90",8,,conteúdo=café 250 g e caneca 300 ml
+PRE-03,Kit iniciante coado,Coador de pano e café 250 g moído.,Kits,"74,90",12,,conteúdo=coador de pano e café 250 g

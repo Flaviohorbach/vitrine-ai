@@ -135,3 +135,19 @@ describe("generated descriptions", () => {
     expect(mug!.suggestedDescription).toBe("Caneca branca de cerâmica para 300 ml.");
   });
 });
+
+import { embedPending, pendingEmbeddings } from "../src/lib/catalog";
+
+describe("deferred embeddings", () => {
+  it("saves an upload at once, searches it by keywords, and embeds it in batches", async () => {
+    const store = await createStore(db, "Loja");
+    const { rows } = parseCatalogCsv(CSV);
+    await replaceCatalog(db, store.id, rows);
+    expect(await pendingEmbeddings(db, store.id)).toBe(3);
+    const before = await searchCatalog(db, store.id, { query: "caneca" }, fakeEmbed);
+    expect(before.products[0]!.id).toBe("C2");
+    expect(await embedPending(db, store.id, embedAll, 2)).toBe(2);
+    expect(await embedPending(db, store.id, embedAll, 2)).toBe(1);
+    expect(await pendingEmbeddings(db, store.id)).toBe(0);
+  });
+});

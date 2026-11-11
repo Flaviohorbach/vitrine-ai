@@ -39,11 +39,11 @@ export interface CreatedStore extends Store {
  * Excalidraw or a Google Docs "anyone with the link". Tokens are stored as
  * hashes, so a database leak does not hand out working links.
  */
-export async function createStore(db: Db, name: string, options: { isDemo?: boolean; id?: string; slug?: string } = {}): Promise<CreatedStore> {
+export async function createStore(db: Db, name: string, options: { isDemo?: boolean; id?: string; slug?: string; mcpToken?: string } = {}): Promise<CreatedStore> {
   const id = options.id ?? randomBytes(8).toString("hex");
   const slug = options.slug ?? slugify(name);
   const adminToken = newToken("adm");
-  const mcpToken = newToken("mcp");
+  const mcpToken = options.mcpToken ?? newToken("mcp");
   await db.query(
     "INSERT INTO stores (id, slug, name, admin_token_hash, mcp_token_hash, is_demo) VALUES ($1, $2, $3, $4, $5, $6)",
     [id, slug, name.trim().slice(0, 60), hashToken(adminToken), hashToken(mcpToken), options.isDemo ?? false],
